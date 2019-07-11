@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test', function () {
+    $client = new MongoDB\Client('mongodb://localhost:27017');
+    
+    $collection = $client->flights->passengers;
+
+    $cursor = $collection->find();
+
+    foreach ($cursor as $document) {
+        echo "<pre>" . print_r($document, true) . "</pre>";
+    }
+
+    
+});
