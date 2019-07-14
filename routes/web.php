@@ -16,11 +16,11 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    $client = new MongoDB\Client('mongodb://localhost:27017');
+    $client = new MongoDB\Client();
     
     $collection = $client->flights->passengers;
 
-    $cursor = $collection->find();
+    $cursor = $collection->find(['age' => ['$lt' => 30] ]); //find passengers with age < 30
 
     foreach ($cursor as $document) {
         echo "<pre>" . print_r($document, true) . "</pre>";
