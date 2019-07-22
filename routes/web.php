@@ -18,9 +18,10 @@ Route::get('/', function () {
 Route::get('/test', function () {
     $client = new MongoDB\Client();
     
-    $collection = $client->flights->passengers;
+    $collection = $client->laravelApp->posts;
+    
 
-    $cursor = $collection->find(['age' => ['$lt' => 30] ]); //find passengers with age < 30
+    $cursor = $collection->find();
 
     foreach ($cursor as $document) {
         echo "<pre>" . print_r($document, true) . "</pre>";
