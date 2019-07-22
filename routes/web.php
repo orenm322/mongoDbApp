@@ -15,17 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    $client = new MongoDB\Client();
-    
-    $collection = $client->laravelApp->posts;
-    
-
-    $cursor = $collection->find();
-
-    foreach ($cursor as $document) {
-        echo "<pre>" . print_r($document, true) . "</pre>";
-    }
-
-    
-});
+Route::get('/test', 'TestController@show');
