@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="css/app.css" rel="stylesheet">
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{asset('css/dashboard.css')}}" rel="stylesheet">
 
     <title>
       @yield('title')
@@ -31,7 +31,7 @@
   </div>
 </div>
 
-    <script src="js/app.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script src="{{asset('js/app.js')}})"></script>
+    <script src="{{asset('js/dashboard.js')}}"></script>
 </body>
 </html>

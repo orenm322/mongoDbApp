@@ -5,6 +5,7 @@ Posts List
 @endsection
 
 @section('content')
+
 <h2>Posts</h2>
 <div class="table-responsive">
 <table class="table table-striped table-sm">
@@ -19,7 +20,7 @@ Posts List
     <tr>
         <td>{{ $document['title'] }}</td>
         <td>
-            <a href="/posts/edit/{{$document['_id']}}" type="button" class="btn btn-primary" role="button">Edit</a>
+            <a href="/posts/{{$document['_id']}}" type="button" class="btn btn-primary" role="button">View Detail</a>
             <a href="/posts" type="button" class="btn btn-danger" role="button">Delete</a>
         </td>
     </tr>
