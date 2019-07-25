@@ -7,6 +7,13 @@ Posts List
 @section('content')
 
 <h2>Posts</h2>
+
+@if ($errors->any())
+    <div class="alert alert-danger" role="alert">
+        {{$errors->first()}}
+    </div>
+@endif
+
 <div class="table-responsive">
 <table class="table table-striped table-sm">
     <thead>

@@ -10,6 +10,7 @@ class PostsController extends Controller
 
     public function show()
     {
+        
         $cursor = Posts::getPostsList();
         return view('posts.list-posts', ['cursor'=>$cursor]);
     }
@@ -27,9 +28,12 @@ class PostsController extends Controller
         $title = $request->input("title");
         $body = $request->input("body");
         
-        $updateResult = Posts::insertPost($title, $body);
+        $insertOneResult = Posts::insertPost($title, $body);
+        
+        $err = $insertOneResult == 0 ? ["Failed to insert post"] : [];
 
-        return redirect('/posts');
+        return redirect()->route('posts')->withErrors($err);
+
     }
 
     public function viewDetail($id)
@@ -47,14 +51,19 @@ class PostsController extends Controller
         
         $updateResult = Posts::updatePost($title, $body, $id);
 
-        return redirect('/posts');
+        $err = $updateResult == 0 ? ["Failed to update post"] : [];
+
+        return redirect()->route('posts')->withErrors($err);
+
     }
 
     public function deletePost($id)
     {
-        $updateResult = Posts::deletePost($id);
+        $deleteResult = Posts::deletePost($id);
 
-        return redirect('/posts');
+        $err = $deleteResult == 0 ? ["Failed to delete post"] : [];
+
+        return redirect()->route('posts')->withErrors($err);
     }
 
     
