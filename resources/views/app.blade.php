@@ -7,7 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
-    {{-- <link href="{{asset('css/dashboard.css')}}" rel="stylesheet"> --}}
 
     <title>
       @yield('title')
@@ -38,7 +37,7 @@
   </div>
 </div>
 
-    <script src="{{asset('js/app.js')}}"></script>
-    {{-- <script src="{{asset('js/dashboard.js')}}"></script> --}}
+<script src="{{asset('js/app.js')}}"></script>
+
 </body>
 </html>
