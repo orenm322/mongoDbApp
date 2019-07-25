@@ -18,9 +18,6 @@
        </div>
     @endif
     
-    
-    
-
     <div class="form-group">
       <label for="title">Title</label>
     <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{ isset($document['title']) ? $document['title'] : "" }}" required>

@@ -27,8 +27,8 @@ Posts List
     <tr>
         <td>{{ $document['title'] }}</td>
         <td>
-            <a href="/posts/detail/{{$document['_id']}}" type="button" class="btn btn-primary" role="button">View Detail</a>
-            <a href="/posts/delete/{{$document['_id']}}" type="button" class="btn btn-danger" role="button">Delete</a>
+            <a href="/posts/detail/{{$document['_id']}}"><button type="button" class="btn btn-primary" role="button">View Detail</button></a>
+            <a href="/posts/delete/{{$document['_id']}}"><button type="button" class="btn btn-danger" role="button">Delete</button></a>
         </td>
     </tr>
     @endforeach
@@ -36,8 +36,8 @@ Posts List
 </table>
 </div>
 
-<div class="row">
-    <a href="/posts/add" type="button" class="btn btn-dark">Add</a>
+<div class="ml-1">
+    <a href="/posts/add" ><button type="button" class="btn btn-dark">Add</button></a>
 </div>
 
 
