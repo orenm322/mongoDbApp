@@ -14,18 +14,33 @@ class PostsController extends Controller
         return view('posts.list-posts', ['cursor'=>$cursor]);
     }
 
-    public function viewDetail($id)
-     {
-        $document = Posts::viewDetail($id);
-        return view('posts.view-detail', ['document'=>$document]);
+    public function addPost()
+    {
+        return view('posts.post-form', ['title'=>'Create Post']);
     }
 
-    public function updatePost(Request $request, $id) {
-        $validatedData = $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-        ]);
+    public function insertPost(Request $request) 
+    {
+
+        Posts::validateForm($request);
         
+        $title = $request->input("title");
+        $body = $request->input("body");
+        
+        $updateResult = Posts::insertPost($title, $body);
+
+        return redirect('/posts');
+    }
+
+    public function viewDetail($id)
+    {
+        $document = Posts::viewDetail($id);
+        return view('posts.post-form', ['title'=>'View Post Detail','document'=>$document]);
+    }
+
+    public function updatePost(Request $request, $id) 
+    {
+        Posts::validateForm($request);
         
         $title = $request->input("title");
         $body = $request->input("body");
@@ -34,6 +49,15 @@ class PostsController extends Controller
 
         return redirect('/posts');
     }
+
+    public function deletePost($id)
+    {
+        $updateResult = Posts::deletePost($id);
+
+        return redirect('/posts');
+    }
+
+    
 }
 
 

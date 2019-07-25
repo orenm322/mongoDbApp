@@ -2,38 +2,75 @@
 
 namespace App\Classes;
 use MongoDB;
+use Illuminate\Http\Request;
 
 class Posts {
 
+    public static function getCollection()
+    {
+        $client = new MongoDB\Client( env("MONGODB_HOST") );
+        return $client->laravelApp->posts;
+    }
+
+    public static function validateForm(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+    }
+    
     public static function getPostsList() {
         
-        $client = new MongoDB\Client( env("MONGODB_HOST") );
         $cursor = [];
-        $collection = $client->laravelApp->posts;
+        $collection = self::getCollection();
         $cursor = $collection->find();
         return $cursor;
     }
 
-    public static function viewDetail($id) {
-        $client = new MongoDB\Client( env("MONGODB_HOST") );
+    public static function insertPost($title, $body) 
+    {
+        $collection = self::getCollection();
+        $insertOneResult = $collection->insertOne([
+            'title' => $title, 
+            'body' => $body
+        ]);
+        
+        return $insertOneResult->getInsertedCount();
+    }
+
+    public static function viewDetail($id) 
+    {
         $document = [];
-        $collection = $client->laravelApp->posts;
+        
+        $collection = self::getCollection();
+
         $document = $collection->findOne([
-                        "_id" => new MongoDB\BSON\ObjectId($id)
-                    ]);
+             "_id" => new MongoDB\BSON\ObjectId($id)
+        ]);
+
         return $document;
     }
 
-    public static function updatePost($title, $body, $id) {
-        $client = new MongoDB\Client( env("MONGODB_HOST") );
-        $collection = $client->laravelApp->posts;
+    public static function updatePost($title, $body, $id) 
+    {
+        $collection = self::getCollection();
         
         $updateResult = $collection->updateOne(
-                            ['_id' => new MongoDB\BSON\ObjectId($id) ],
-                            ['$set' => ['title' => $title, 'body' => $body]]
-                        );
+            ['_id' => new MongoDB\BSON\ObjectId($id) ],
+            ['$set' => ['title' => $title, 'body' => $body] ]
+        );
         
         return $updateResult->getMatchedCount();
+    }
+
+    public static function deletePost($id)
+    {
+        $collection = self::getCollection();
+
+        $deleteResult = $collection->deleteOne(['_id' => new MongoDB\BSON\ObjectId($id) ]);
+        
+        return $deleteResult->getDeletedCount();
     }
 }
 

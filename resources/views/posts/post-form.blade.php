@@ -1,12 +1,12 @@
 @extends('app')
 
 @section('title')
-Post Detail
+{{ $title }}
 @endsection
 
 @section('content')
 
-<h2>Post Detail ({{ $document["_id"] }})</h2>
+<h2>{{ $title }}</h2>
 <form method="POST">
     @csrf
     
@@ -23,11 +23,11 @@ Post Detail
 
     <div class="form-group">
       <label for="title">Title</label>
-    <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{ $document['title'] }}" required>
+    <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="{{ isset($document['title']) ? $document['title'] : "" }}" required>
     </div>
     <div class="form-group">
       <label for="body">Body</label>
-    <textarea class="form-control" name="body" id="body" rows="3" placeholder="Body" required>{{ $document['body'] }}</textarea>
+    <textarea class="form-control" name="body" id="body" rows="3" placeholder="Body" required>{{ isset($document['body']) ? $document['body'] : "" }}</textarea>
     </div>
 
     <div class="form-group">

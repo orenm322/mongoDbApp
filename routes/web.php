@@ -16,5 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', 'PostsController@show');
-Route::get('/posts/{id}', 'PostsController@viewDetail');
-Route::post('/posts/{id}', 'PostsController@updatePost');
+Route::get('/posts/add', 'PostsController@addPost');
+Route::post('/posts/add', 'PostsController@insertPost');
+Route::get('/posts/detail/{id}', 'PostsController@viewDetail');
+Route::post('/posts/detail/{id}', 'PostsController@updatePost');
+Route::get('/posts/delete/{id}', 'PostsController@deletePost');

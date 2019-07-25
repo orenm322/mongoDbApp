@@ -20,12 +20,18 @@ Posts List
     <tr>
         <td>{{ $document['title'] }}</td>
         <td>
-            <a href="/posts/{{$document['_id']}}" type="button" class="btn btn-primary" role="button">View Detail</a>
-            <a href="/posts" type="button" class="btn btn-danger" role="button">Delete</a>
+            <a href="/posts/detail/{{$document['_id']}}" type="button" class="btn btn-primary" role="button">View Detail</a>
+            <a href="/posts/delete/{{$document['_id']}}" type="button" class="btn btn-danger" role="button">Delete</a>
         </td>
     </tr>
     @endforeach
     </tbody>
 </table>
 </div>
+
+<div class="row">
+    <a href="/posts/add" type="button" class="btn btn-dark">Add</a>
+</div>
+
+
 @endsection
