@@ -19,6 +19,8 @@ Posts List
     <thead>
     <tr>
         <th>Title</th>
+        <th>Created Date</th>
+        <th>Update Date</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -26,6 +28,8 @@ Posts List
     @foreach($cursor as $document)
     <tr>
         <td>{{ $document['title'] }}</td>
+        <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($document['created_date']) }}</td>
+        <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($document['updated_date']) }}</td>
         <td>
             <a href="/posts/detail/{{$document['_id']}}"><button type="button" class="btn btn-primary" role="button">View Detail</button></a>
             <a href="/posts/delete/{{$document['_id']}}"><button type="button" class="btn btn-danger" role="button">Delete</button></a>
