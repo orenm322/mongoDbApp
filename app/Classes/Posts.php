@@ -33,7 +33,9 @@ class Posts {
         $collection = self::getCollection();
         $insertOneResult = $collection->insertOne([
             'title' => $title, 
-            'body' => $body
+            'body' => $body,
+            'created_date' => new MongoDB\BSON\UTCDateTime,
+            'updated_date' => new MongoDB\BSON\UTCDateTime
         ]);
         
         return $insertOneResult->getInsertedCount();
@@ -58,7 +60,12 @@ class Posts {
         
         $updateResult = $collection->updateOne(
             ['_id' => new MongoDB\BSON\ObjectId($id) ],
-            ['$set' => ['title' => $title, 'body' => $body] ]
+            ['$set' => [
+                'title' => $title, 
+                'body' => $body,
+                'updated_date' => new MongoDB\BSON\UTCDateTime
+                ] 
+            ]
         );
         
         return $updateResult->getMatchedCount();
