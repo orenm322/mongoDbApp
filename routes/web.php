@@ -15,8 +15,12 @@
 //     return view('welcome');
 // });
 
+Auth::routes();
+
 //home route
 Route::get('/', 'PostsController@show');
+
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('posts')->group(function () {
     //posts pages
@@ -32,9 +36,3 @@ Route::prefix('reports')->group(function () {
     //reports pages
     Route::get('/', 'ReportsController@showGraph');
 });
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
