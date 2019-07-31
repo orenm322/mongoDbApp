@@ -21,7 +21,9 @@ Posts List
         <th>Title</th>
         <th>Created Date</th>
         <th>Update Date</th>
+        @if(Auth::check())
         <th>Actions</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -30,10 +32,12 @@ Posts List
         <td>{{ $user['title'] }}</td>
         <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($user['created_date']) }}</td>
         <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($user['updated_date']) }}</td>
+        @if(Auth::check())
         <td>
             <a href="/posts/detail/{{$user['_id']}}"><button type="button" class="btn btn-primary" role="button">View Detail</button></a>
             <a href="/posts/delete/{{$user['_id']}}"><button type="button" class="btn btn-danger" role="button">Delete</button></a>
         </td>
+        @endif
     </tr>
     @endforeach
     </tbody>

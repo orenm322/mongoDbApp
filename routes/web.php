@@ -25,11 +25,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('posts')->group(function () {
     //posts pages
     Route::get('/', 'PostsController@show')->name('posts');
-    Route::get('add', 'PostsController@addPost');
-    Route::post('add', 'PostsController@insertPost');
-    Route::get('detail/{id}', 'PostsController@viewDetail');
-    Route::post('detail/{id}', 'PostsController@updatePost');
-    Route::get('delete/{id}', 'PostsController@deletePost');
+    Route::get('add', 'PostsController@addPost')->middleware('auth');
+    Route::post('add', 'PostsController@insertPost')->middleware('auth');
+    Route::get('detail/{id}', 'PostsController@viewDetail')->middleware('auth');
+    Route::post('detail/{id}', 'PostsController@updatePost')->middleware('auth');
+    Route::get('delete/{id}', 'PostsController@deletePost')->middleware('auth');
 });
 
 Route::prefix('reports')->group(function () {
