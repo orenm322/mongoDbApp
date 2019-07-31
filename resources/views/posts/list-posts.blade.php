@@ -25,20 +25,22 @@ Posts List
     </tr>
     </thead>
     <tbody>
-    @foreach($cursor as $document)
+    @foreach($users as $user)
     <tr>
-        <td>{{ $document['title'] }}</td>
-        <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($document['created_date']) }}</td>
-        <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($document['updated_date']) }}</td>
+        <td>{{ $user['title'] }}</td>
+        <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($user['created_date']) }}</td>
+        <td>{{ \App\Classes\MongoDBHelper::getLocalDatetime($user['updated_date']) }}</td>
         <td>
-            <a href="/posts/detail/{{$document['_id']}}"><button type="button" class="btn btn-primary" role="button">View Detail</button></a>
-            <a href="/posts/delete/{{$document['_id']}}"><button type="button" class="btn btn-danger" role="button">Delete</button></a>
+            <a href="/posts/detail/{{$user['_id']}}"><button type="button" class="btn btn-primary" role="button">View Detail</button></a>
+            <a href="/posts/delete/{{$user['_id']}}"><button type="button" class="btn btn-danger" role="button">Delete</button></a>
         </td>
     </tr>
     @endforeach
     </tbody>
 </table>
 </div>
+
+{{ $users->links() }}
 
 <div class="ml-1">
     <a href="/posts/add" ><button type="button" class="btn btn-dark">Add</button></a>

@@ -3,6 +3,7 @@
 namespace App\Classes;
 use MongoDB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Posts {
 
@@ -22,10 +23,9 @@ class Posts {
     
     public static function getPostsList() {
         
-        $cursor = [];
-        $collection = self::getCollection();
-        $cursor = $collection->find();
-        return $cursor;
+        $users = [];
+        $users = DB::collection('posts')->paginate(5);
+        return $users;
     }
 
     public static function insertPost($title, $body) 

@@ -15,9 +15,9 @@ class PostsController extends Controller
 
     public function show()
     {
-        
-        $cursor = Posts::getPostsList();
-        return view('posts.list-posts', ['cursor'=>$cursor]);
+        $users = Posts::getPostsList();
+
+        return view('posts.list-posts', ['users'=>$users]);
     }
 
     public function addPost()
