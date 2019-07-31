@@ -20,7 +20,7 @@ Auth::routes();
 //home route
 Route::get('/', 'PostsController@show');
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('posts')->group(function () {
     //posts pages

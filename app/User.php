@@ -9,10 +9,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Eloquent implements AuthenticatableContract
+class User extends Eloquent implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable;
     use Notifiable;
