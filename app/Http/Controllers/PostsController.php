@@ -15,9 +15,12 @@ class PostsController extends Controller
         return view('posts.list-posts', ['users'=>$users]);
     }
 
-    public function addPost()
+    public function addPost(Request $request)
     {
-        return view('posts.post-form', ['title'=>'Create Post']);
+        $document = $request->old();
+        $categories = Posts::getCategories();
+        
+        return view('posts.post-form', ['title'=>'Create Post', 'document'=>$document, 'categories'=>$categories]);
     }
 
     public function insertPost(Request $request) 
@@ -27,19 +30,26 @@ class PostsController extends Controller
         
         $title = $request->input("title");
         $body = $request->input("body");
+        $category = $request->input("category");
         
-        $insertOneResult = Posts::insertPost($title, $body);
+        $insertOneResult = Posts::insertPost($title, $body, $category);
         
         $err = $insertOneResult == 0 ? ["Failed to insert post"] : [];
 
-        return redirect()->route('posts')->withErrors($err);
+        return redirect()->route('posts')->withInput()->withErrors($err);
 
     }
 
-    public function viewDetail($id)
+    public function viewDetail(Request $request, $id)
     {
-        $document = Posts::viewDetail($id);
-        return view('posts.post-form', ['title'=>'View Post Detail','document'=>$document]);
+        $document = $request->old();
+        if(empty($document) ) {
+            $document = Posts::viewDetail($id);
+        }
+
+        $categories = Posts::getCategories();
+    
+        return view('posts.post-form', ['title'=>'View Post Detail','document'=>$document, 'categories'=>$categories]);
     }
 
     public function updatePost(Request $request, $id) 
@@ -48,12 +58,13 @@ class PostsController extends Controller
         
         $title = $request->input("title");
         $body = $request->input("body");
+        $category = $request->input("category");
         
-        $updateResult = Posts::updatePost($title, $body, $id);
+        $updateResult = Posts::updatePost($title, $body, $category, $id);
 
         $err = $updateResult == 0 ? ["Failed to update post"] : [];
 
-        return redirect()->route('posts')->withErrors($err);
+        return redirect()->route('posts')->withInput()->withErrors($err);
 
     }
 

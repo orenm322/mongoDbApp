@@ -16,9 +16,14 @@ class Posts {
     public static function validateForm(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required',
+            'title' => 'required|min:10',
             'body' => 'required',
+            'category' => 'required|array'
         ]);
+    }
+
+    public static function getCategories() {
+        return ["Tech", "Sports", "Politics", "US", "World"];
     }
     
     public static function getPostsList() {
@@ -28,12 +33,13 @@ class Posts {
         return $users;
     }
 
-    public static function insertPost($title, $body) 
+    public static function insertPost($title, $body, $category) 
     {
         $collection = self::getCollection();
         $insertOneResult = $collection->insertOne([
             'title' => $title, 
             'body' => $body,
+            'category' => $category,
             'created_date' => new MongoDB\BSON\UTCDateTime,
             'updated_date' => new MongoDB\BSON\UTCDateTime
         ]);
@@ -50,11 +56,14 @@ class Posts {
         $document = $collection->findOne([
              "_id" => new MongoDB\BSON\ObjectId($id)
         ]);
+        
+        if(isset($document['category']))
+            $document['category'] = iterator_to_array($document['category']);
 
         return $document;
     }
 
-    public static function updatePost($title, $body, $id) 
+    public static function updatePost($title, $body, $category, $id) 
     {
         $collection = self::getCollection();
         
@@ -63,6 +72,7 @@ class Posts {
             ['$set' => [
                 'title' => $title, 
                 'body' => $body,
+                'category' => $category,
                 'updated_date' => new MongoDB\BSON\UTCDateTime
                 ] 
             ]
