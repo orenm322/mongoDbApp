@@ -58,7 +58,7 @@ class Posts {
         ]);
         
         if(isset($document['category']))
-            $document['category'] = iterator_to_array($document['category']);
+            $document['category'] = iterator_to_array($document['category']); //converts BSONArray to PHP array
 
         return $document;
     }
