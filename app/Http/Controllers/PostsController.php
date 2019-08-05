@@ -8,13 +8,17 @@ use Illuminate\Http\Request;
 class PostsController extends Controller
 {
 
-    public function show()
+    public function show(Request $request)
     {
-        $posts = Posts::getPostsList();
+        $page = $request->query('page');
+        if(is_null($page)) 
+            $page = 1;
 
-        //dd($users);
+        $posts = Posts::getPostsList($page);
 
-        return view('posts.list-posts', ['posts'=>$posts]);
+        $posts_next = Posts::getPostsList($page+1);
+
+        return view('posts.list-posts', ['posts'=>$posts, 'page'=>$page, 'next_page_count'=>iterator_count($posts_next)]);
     }
 
     public function addPost(Request $request)

@@ -48,7 +48,20 @@ Posts List
 </table>
 </div>
 
-{{-- {{ $post->links() }} --}}
+<nav aria-label="...">
+    <ul class="pagination">
+    <li class="page-item {{ $page <= 1 ? 'disabled' : '' }}">
+        <a class="page-link" href="/posts?page={{ $page-1 }}" {{ $page <= 1 ? 'tabindex="-1" aria-disabled="true"' : '' }} >Previous</a>
+      </li>
+      <li class="page-item active" aria-current="page">
+        <a class="page-link" href="#">{{ $page }} <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="page-item {{ $next_page_count === 0 ? 'disabled' : '' }}">
+        <a class="page-link" href="/posts?page={{ $page+1 }}" {{ $next_page_count === 0 ? 'tabindex="-1" aria-disabled="true"' : '' }}>Next</a>
+      </li>
+    </ul>
+  </nav>
+
 
 <div class="ml-1">
     <a href="/posts/add" ><button type="button" class="btn btn-dark">Add</button></a>

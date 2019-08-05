@@ -28,15 +28,19 @@ class Posts {
         return ["Tech", "Sports", "Politics", "US", "World"];
     }
     
-    public static function getPostsList() {
+    public static function getPostsList($page) {
         
         $posts = [];
-        //$posts = DB::collection('posts')->paginate(5);
+ 
+        $limit = 5;
+        $skip = ($page -1) * $limit;
         
         $collection = self::getCollection();
         $posts = $collection->aggregate([
             ['$lookup' => ['from'=> 'users', 'localField' => 'meta.author', 'foreignField' => '_id', 'as' => 'author_detail'] ],
             ['$project' => ['_id'=> 1, 'title' => 1, 'created_date'=> 1, 'updated_date' => 1, 'author_detail._id' => 1, 'author_detail.name' => 1] ],
+            ['$skip' => $skip],
+            ['$limit' => $limit]
         ]);
 
         return $posts;
