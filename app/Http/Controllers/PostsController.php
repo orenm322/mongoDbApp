@@ -14,6 +14,8 @@ class PostsController extends Controller
         if(is_null($page)) 
             $page = 1;
 
+        /*implementing Pagination by myself instead of using Laravel's built-in Pagination feature 
+          since it seems not to work when using MongoDB's aggregation framework */
         $paginationRange = Posts::getPaginationRange();
 
         $posts = Posts::getPostsList($page, $page+1);
@@ -21,17 +23,8 @@ class PostsController extends Controller
         $posts_prev = Posts::getPostsList($page-$paginationRange, $page);
         $posts_next = Posts::getPostsList($page+1, $page+1+$paginationRange);
 
-        if(empty($posts_prev)) 
-            $prev_page_count = 0;
-        else 
-            $prev_page_count = Posts::getPostPageCount($posts_prev);
-        
-
-        if(empty($posts_next)) 
-            $next_page_count = 0;
-        else 
-            $next_page_count = Posts::getPostPageCount($posts_next);
-
+        $prev_page_count = empty($posts_prev) ? 0 : Posts::getPostPageCount($posts_prev);
+        $next_page_count = empty($posts_next) ? 0 : Posts::getPostPageCount($posts_next);
 
         return view('posts.list-posts', ['posts'=>$posts, 
                                          'page'=>$page, 
