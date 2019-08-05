@@ -10,14 +10,22 @@ class PostsController extends Controller
 
     public function show()
     {
-        $users = Posts::getPostsList();
+        $posts = Posts::getPostsList();
 
-        return view('posts.list-posts', ['users'=>$users]);
+        //dd($users);
+
+        return view('posts.list-posts', ['posts'=>$posts]);
     }
 
     public function addPost(Request $request)
     {
         $document = $request->old();
+        if(empty($document) ) {
+            $document['meta']['valid'] = 'Y';
+        }
+        else {
+            $document['meta']['valid'] = $document['valid']; //copying to new value to have consistency with insert/update functions on blade template
+        }
         $categories = Posts::getCategories();
         
         return view('posts.post-form', ['title'=>'Create Post', 'document'=>$document, 'categories'=>$categories]);
@@ -31,8 +39,9 @@ class PostsController extends Controller
         $title = $request->input("title");
         $body = $request->input("body");
         $category = $request->input("category");
+        $valid = $request->input("valid");
         
-        $insertOneResult = Posts::insertPost($title, $body, $category);
+        $insertOneResult = Posts::insertPost($title, $body, $category, $valid);
         
         $err = $insertOneResult == 0 ? ["Failed to insert post"] : [];
 
@@ -59,8 +68,9 @@ class PostsController extends Controller
         $title = $request->input("title");
         $body = $request->input("body");
         $category = $request->input("category");
+        $valid = $request->input("valid");
         
-        $updateResult = Posts::updatePost($title, $body, $category, $id);
+        $updateResult = Posts::updatePost($title, $body, $category, $valid, $id);
 
         $err = $updateResult == 0 ? ["Failed to update post"] : [];
 

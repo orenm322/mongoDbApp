@@ -44,6 +44,31 @@
     </div>
 
     <div class="form-group">
+      <label for="valid">Valid:</label>
+      <div class="form-check form-check-inline">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="valid" 
+          id="validY" 
+          value="Y"
+          {{ isset($document['meta']['valid']) && $document['meta']['valid'] === "Y" ? "checked" : "" }} />
+        <label class="form-check-label" for="validY">Yes</label>
+      </div>
+      <div class="form-check form-check-inline">
+        
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="valid" 
+          id="validN" 
+          value="N"
+          {{ isset($document['meta']['valid']) && $document['meta']['valid'] === "N" ? "checked" : "" }} />
+        <label class="form-check-label" for="validN">No</label>
+      </div>
+    </div>
+
+    <div class="form-group">
       <button type="submit" class="btn btn-primary mb-2">Submit</button>
       <button type="reset" class="btn btn-primary mb-2">Reset</button>
     </div>
