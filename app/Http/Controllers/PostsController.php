@@ -14,11 +14,29 @@ class PostsController extends Controller
         if(is_null($page)) 
             $page = 1;
 
-        $posts = Posts::getPostsList($page);
+        $paginationRange = Posts::getPaginationRange();
 
-        $posts_next = Posts::getPostsList($page+1);
+        $posts = Posts::getPostsList($page, $page+1);
 
-        return view('posts.list-posts', ['posts'=>$posts, 'page'=>$page, 'next_page_count'=>iterator_count($posts_next)]);
+        $posts_prev = Posts::getPostsList($page-$paginationRange, $page);
+        $posts_next = Posts::getPostsList($page+1, $page+1+$paginationRange);
+
+        if(empty($posts_prev)) 
+            $prev_page_count = 0;
+        else 
+            $prev_page_count = Posts::getPostPageCount($posts_prev);
+        
+
+        if(empty($posts_next)) 
+            $next_page_count = 0;
+        else 
+            $next_page_count = Posts::getPostPageCount($posts_next);
+
+
+        return view('posts.list-posts', ['posts'=>$posts, 
+                                         'page'=>$page, 
+                                         'prev_page_count'=>$prev_page_count,
+                                         'next_page_count'=>$next_page_count ]);
     }
 
     public function addPost(Request $request)

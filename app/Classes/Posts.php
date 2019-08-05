@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class Posts {
 
+    public static $limit = 5;
+    public static $categories = ["Tech", "Sports", "Politics", "US", "World"];
+    public static $paginationRange = 2;
+    
     public static function getCollection()
     {
         $client = new MongoDB\Client( env("MONGODB_HOST") );
@@ -17,7 +21,7 @@ class Posts {
     public static function validateForm(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required|min:10',
+            'title' => 'required|min:10|max:50',
             'body' => 'required',
             'category' => 'required|array',
             'valid' => 'required'
@@ -25,15 +29,27 @@ class Posts {
     }
 
     public static function getCategories() {
-        return ["Tech", "Sports", "Politics", "US", "World"];
+        return self::$categories;
     }
-    
-    public static function getPostsList($page) {
+
+    public static function getPaginationRange() {
+        return self::$paginationRange;
+    }
+
+    public static function getPostsList($startPage, $endPage) {
         
         $posts = [];
+
+        if($startPage < 1)
+            $startPage = 1; //validation of $startPage value
+        if($endPage < $startPage)
+            $endPage = $startPage; //validate of $endPage value
  
-        $limit = 5;
-        $skip = ($page -1) * $limit;
+        $limit = self::$limit * ($endPage - $startPage);
+        $skip = ($startPage -1) * self::$limit;
+
+        if($limit <= 0)
+            return $posts;
         
         $collection = self::getCollection();
         $posts = $collection->aggregate([
@@ -44,6 +60,10 @@ class Posts {
         ]);
 
         return $posts;
+    }
+
+    public static function getPostPageCount($posts_cursor) {   
+        return ceil(iterator_count($posts_cursor) / self::$limit);
     }
 
     public static function insertPost($title, $body, $category, $valid) 

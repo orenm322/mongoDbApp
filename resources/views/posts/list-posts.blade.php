@@ -50,18 +50,27 @@ Posts List
 
 <nav aria-label="...">
     <ul class="pagination">
-    <li class="page-item {{ $page <= 1 ? 'disabled' : '' }}">
-        <a class="page-link" href="/posts?page={{ $page-1 }}" {{ $page <= 1 ? 'tabindex="-1" aria-disabled="true"' : '' }} >Previous</a>
+      <li class="page-item {{ $prev_page_count == 0 ? 'disabled' : '' }}">
+        <a class="page-link" href="/posts?page={{ $page-1 }}" {{ $prev_page_count == 0 ? 'tabindex="-1" aria-disabled="true"' : '' }} >Previous</a>
       </li>
+      @for ($i = $page - $prev_page_count; $i < $page; $i++)
+      <li class="page-item">
+        <a class="page-link" href="/posts?page={{ $i }}">{{ $i }}</a>
+      </li>
+      @endfor
       <li class="page-item active" aria-current="page">
         <a class="page-link" href="#">{{ $page }} <span class="sr-only">(current)</span></a>
       </li>
-      <li class="page-item {{ $next_page_count === 0 ? 'disabled' : '' }}">
-        <a class="page-link" href="/posts?page={{ $page+1 }}" {{ $next_page_count === 0 ? 'tabindex="-1" aria-disabled="true"' : '' }}>Next</a>
+      @for ($i = $page + 1; $i < $page + 1 + $next_page_count; $i++)
+      <li class="page-item">
+        <a class="page-link" href="/posts?page={{ $i }}">{{ $i }}</a>
+      </li>
+      @endfor
+      <li class="page-item {{ $next_page_count == 0 ? 'disabled' : '' }}">
+        <a class="page-link" href="/posts?page={{ $page+1 }}" {{ $next_page_count == 0 ? 'tabindex="-1" aria-disabled="true"' : '' }}>Next</a>
       </li>
     </ul>
   </nav>
-
 
 <div class="ml-1">
     <a href="/posts/add" ><button type="button" class="btn btn-dark">Add</button></a>
