@@ -4,6 +4,7 @@ namespace App\Classes;
 use MongoDB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Posts {
 
@@ -18,7 +19,8 @@ class Posts {
         $validatedData = $request->validate([
             'title' => 'required|min:10',
             'body' => 'required',
-            'category' => 'required|array'
+            'category' => 'required|array',
+            'valid' => 'required'
         ]);
     }
 
@@ -28,12 +30,19 @@ class Posts {
     
     public static function getPostsList() {
         
-        $users = [];
-        $users = DB::collection('posts')->paginate(5);
-        return $users;
+        $posts = [];
+        //$posts = DB::collection('posts')->paginate(5);
+        
+        $collection = self::getCollection();
+        $posts = $collection->aggregate([
+            ['$lookup' => ['from'=> 'users', 'localField' => 'meta.author', 'foreignField' => '_id', 'as' => 'author_detail'] ],
+            ['$project' => ['_id'=> 1, 'title' => 1, 'created_date'=> 1, 'updated_date' => 1, 'author_detail._id' => 1, 'author_detail.name' => 1] ],
+        ]);
+
+        return $posts;
     }
 
-    public static function insertPost($title, $body, $category) 
+    public static function insertPost($title, $body, $category, $valid) 
     {
         $collection = self::getCollection();
         $insertOneResult = $collection->insertOne([
@@ -41,7 +50,12 @@ class Posts {
             'body' => $body,
             'category' => $category,
             'created_date' => new MongoDB\BSON\UTCDateTime,
-            'updated_date' => new MongoDB\BSON\UTCDateTime
+            'updated_date' => new MongoDB\BSON\UTCDateTime,
+            'meta' => [
+                'author' => new MongoDB\BSON\ObjectId(Auth::user()->_id),
+                'valid' => $valid
+            ]
+            
         ]);
         
         return $insertOneResult->getInsertedCount();
@@ -63,7 +77,7 @@ class Posts {
         return $document;
     }
 
-    public static function updatePost($title, $body, $category, $id) 
+    public static function updatePost($title, $body, $category, $valid, $id) 
     {
         $collection = self::getCollection();
         
@@ -73,7 +87,8 @@ class Posts {
                 'title' => $title, 
                 'body' => $body,
                 'category' => $category,
-                'updated_date' => new MongoDB\BSON\UTCDateTime
+                'updated_date' => new MongoDB\BSON\UTCDateTime,
+                'meta.valid' => $valid
                 ] 
             ]
         );
