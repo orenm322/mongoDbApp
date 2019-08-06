@@ -12,9 +12,15 @@ class Reports {
         return $url;
     }
 
-    public static function showPostsByAuthorChart()
+    public static function showPostsByUserChart()
     {
         $id = "be307d9d-71bc-496b-8fd2-a70cdfbdc58d";
+        return self::getEmbeededChartURL($id);
+    }
+
+    public static function showPostsByCategoryChart()
+    {
+        $id = "3aaf07d3-f2b5-439c-ad15-e8a7ad42f748";
         return self::getEmbeededChartURL($id);
     }
 }

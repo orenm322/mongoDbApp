@@ -9,9 +9,15 @@ class ReportsController extends Controller {
         $this->middleware('auth');
     }
     
-    public function showPostsByAuthorChart()
+    public function showPostsByUserChart()
     {
-        $url = Reports::showPostsByAuthorChart();
+        $url = Reports::showPostsByUserChart();
+        return view('reports.show-mongodb-chart', ['url' => $url] );
+    }
+
+    public function showPostsByCategoryChart()
+    {
+        $url = Reports::showPostsByCategoryChart();
         return view('reports.show-mongodb-chart', ['url' => $url] );
     }
 
