@@ -34,5 +34,7 @@ Route::prefix('posts')->group(function () {
 
 Route::prefix('reports')->group(function () {
     //reports pages
-    Route::get('/', 'ReportsController@showGraph');
+    Route::get('/', 'ReportsController@showPostsByAuthorChart');
+    //Route::get('/map', 'ReportsController@showMap');
+
 });

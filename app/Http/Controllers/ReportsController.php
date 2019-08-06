@@ -9,11 +9,16 @@ class ReportsController extends Controller {
         $this->middleware('auth');
     }
     
-    public function showGraph()
+    public function showPostsByAuthorChart()
     {
-        $url = Reports::getEmbeededChartURL();
-        return view('reports.show-graph', ['url' => $url] );
+        $url = Reports::showPostsByAuthorChart();
+        return view('reports.show-mongodb-chart', ['url' => $url] );
     }
+
+    // public function showMap()
+    // {
+    //     return view('reports.show-map');
+    // }
 }
 
 ?>

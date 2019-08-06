@@ -34,7 +34,7 @@
           Reports BETA
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/reports">Bar Graph</a>
+          <a class="dropdown-item" href="/reports">Posts By User</a>
         </div>
       </li>
     </ul>
