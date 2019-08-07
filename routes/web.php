@@ -15,16 +15,16 @@
 //     return view('welcome');
 // });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 //home route
-Route::get('/', 'PostsController@show');
+Route::get('/', 'PostsController@show')->middleware('verified');
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('posts')->group(function () {
     //posts pages
-    Route::get('/', 'PostsController@show')->name('posts');
+    Route::get('/', 'PostsController@show')->name('posts')->middleware('verified');
     Route::get('add', 'PostsController@addPost')->middleware('auth');
     Route::post('add', 'PostsController@insertPost')->middleware('auth');
     Route::get('detail/{id}', 'PostsController@viewDetail')->middleware('auth');
